@@ -15,7 +15,11 @@ Plug 'https://github.com/tc50cal/vim-terminal'
 Plug 'https://github.com/terryma/vim-multiple-cursors'
 Plug 'https://github.com/preservim/tagbar' 
 Plug 'https://github.com/neoclide/coc.nvim'
+source ~/.local/share/nvim/plugged/awesome-vim-colorschemes/color/alduin.vim
+set encoding=UTF-8
+:set completeopt-=preview
 call plug#end()
 nnoremap <C-f> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-r> :terminal<CR>
+nnoremap <C-p> :TagbarToggle<CR>
