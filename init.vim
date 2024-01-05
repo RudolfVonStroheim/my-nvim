@@ -18,3 +18,4 @@ Plug 'https://github.com/neoclide/coc.nvim'
 call plug#end()
 nnoremap <C-f> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-r> :terminal<CR>
