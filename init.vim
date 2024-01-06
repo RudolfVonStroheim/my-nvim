@@ -1,4 +1,4 @@
-set number
+iset number
 set tabstop=4
 set softtabstop=4
 set autoindent
@@ -17,7 +17,11 @@ Plug 'https://github.com/tc50cal/vim-terminal'
 Plug 'https://github.com/terryma/vim-multiple-cursors'
 Plug 'https://github.com/preservim/tagbar' 
 Plug 'https://github.com/neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+Plug 'https://github.com/mfussenegger/nvim-dap'
+Plug 'https://github.com/rcarriga/nvim-dap-ui'
+Plug 'mfussenegger/nvim-dap-python'
 set encoding=UTF-8
+lua require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
 :set completeopt-=preview
 call plug#end()
 nnoremap <C-t> :NERDTreeToggle<CR>
