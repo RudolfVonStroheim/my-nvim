@@ -27,6 +27,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
 Plug 'https://github.com/nvim-telescope/telescope.nvim'
+Plug 'https://github.com/nvim-lua/plenary.nvim'
 Plug 'gelguy/wilder.nvim'
 set encoding=UTF-8
 :set completeopt-=preview
@@ -85,6 +86,10 @@ dap.configurations.cpp =
 		},
 }
 EOF
+nnoremap <A-f> :Telescope find_files<cr>
+nnoremap <A-g> :Telescope live_grep<cr>
+nnoremap <A-b> :Telescope buffers<cr>
+nnoremap <A-h> :Telescope help_tags<cr>
 nnoremap <C-b> :lua require'dap'.toggle_breakpoint()<CR>
 nnoremap <C-l> :lua require'dap'.continue() <CR>
 nnoremap <C-s> :lua require'dap'.step_over() <CR>
