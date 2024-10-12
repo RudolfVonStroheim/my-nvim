@@ -7,6 +7,7 @@ set smarttab
 set smartindent
 call plug#begin('C:\Users\Mike\AppData\Local\nvim-data\site\autoload')
 Plug 'NeogitOrg/neogit'
+Plug 'nvimdev/dashboard-nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'rcarriga/nvim-notify'
@@ -54,7 +55,29 @@ root_dir =  function(fname)
 require'lspconfig'.bashls.setup{}
 
 require('dap-python').setup('C:\\Users\\Mike\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')
+require'dashboard'.setup({
+    theme = 'hyper',
+    config = {
+      week_header = {
+       enable = true,
+      },
+      shortcut = {
+        { desc = '󰊳 Update', group = '@property', action = 'PlugUpdate', key = 'u' },
+		{ desc = " Open File Manager", group = "@property", action = 'Neotree', key = 't'},
+		{ desc = " Open Terminal", group = '@property', action = 'ToggleTerm', key = 'f'},
+        {
+          icon = ' ',
+          icon_hl = '@variable',
+          desc = 'Files',
+          group = 'Label',
+          action = 'Telescope find_files',
+          key = 's',
+        },
+	  },
+    },
+  })
 require'lspconfig'.jedi_language_server.setup{}
+require'toggleterm'.setup()
 require'lspconfig'.arduino_language_server.setup{}
 require'dap'.adapters.bashdb = {type = 'executable'; command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter'; name = 'bashdb';}
 require'dap'.adapters.cppdbg = {id = 'cppdbg',type = 'executable',command = '~/extension/debugAdapters/bin/OpenDebugAD7',}
