@@ -1,4 +1,3 @@
-syntax on
 set number
 set tabstop=4
 set softtabstop=4
@@ -6,89 +5,66 @@ set autoindent
 set mouse=a
 set smarttab
 set smartindent
-call plug#begin()
+call plug#begin('C:\Users\Mike\AppData\Local\nvim-data\site\autoload')
+Plug 'NeogitOrg/neogit'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'rcarriga/nvim-notify'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'https://github.com/vim-airline/vim-airline'
-Plug 'https://github.com/preservim/nerdtree'
+Plug 'https://github.com/nvim-neo-tree/neo-tree.nvim', {'branch': 'v3.x'}
+Plug 'MunifTanjim/nui.nvim'
 Plug 'https://github.com/tpope/vim-surround'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/ap/vim-css-color'
-Plug 'https://github.com/rafi/awesome-vim-colorschemes'
-Plug 'https://github.com/ryanoasis/vim-devicons'
-Plug 'https://github.com/tc50cal/vim-terminal'
+Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
+Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
+Plug 'romgrk/barbar.nvim'
 Plug 'https://github.com/terryma/vim-multiple-cursors'
+Plug 'https://github.com/williamboman/mason.nvim'
 Plug 'https://github.com/preservim/tagbar' 
-Plug 'https://github.com/neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'https://github.com/mfussenegger/nvim-dap'
 Plug 'https://github.com/rcarriga/nvim-dap-ui'
 Plug 'mfussenegger/nvim-dap-python'
-Plug 'https://github.com/williamboman/mason.nvim'
 Plug 'https://github.com/neovim/nvim-lspconfig'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
 function! UpdateRemotePlugins(...)
     let &rtp=&rtp
     UpdateRemotePlugins
 endfunction
-Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+Plug 'gelguy/wilder.nvim', {'do': function('UpdateRemotePlugins')}
 Plug 'https://github.com/nvim-telescope/telescope.nvim'
+Plug 'https://github.com/nvim-neotest/nvim-nio'
 set encoding=UTF-8
 :set completeopt-=preview
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 call plug#end()
-lua require("mason").setup({ui = {icons = {package_installed = "✓",    package_pending = "➜", package_uninstalled = "✗"}}})
-lua require("mason-lspconfig").setup()
-lua require("dapui").setup()
-lua require('dap-python').setup('~/venvs/venv/bin/python')
-call wilder#setup({'modes': [':', '/', '?']})
 lua << EOF
-local lsp = require("lspconfig")
-lsp.pyright.setup{}
-lsp.bashls.setup{}
-lsp.arduino_language_server.setup{}
-local dap = require("dap")
-dap.adapters.bashdb = {
-		type = 'executable';
-		command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter';
-		name = 'bashdb';}
-dap.adapters.cppdbg = {id = 'cppdbg',type = 'executable',command = '~/.local/share/nvim/mason/bin/OpenDebugAD7',}
-dap.configurations.sh = 
-{
-		{
-				type = 'bashdb';
-				request = 'launch';
-				name = "Launch file";
-				showDebugOutput = true;
-				pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';
-				pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';
-				trace = true;
-				file = "${file}";
-				program = "${file}";
-				cwd = '${workspaceFolder}';
-				pathCat = "cat";
-				pathBash = "bash";
-				pathMkfifo = "mkfifo";
-				pathPkill = "pkill";
-				args = {tempdir = "~/tmp"};
-				env = {};
-				terminalKind = "integrated";
-		}
+require("mason").setup({ui = {icons = {package_installed = "✓",    package_pending = "➜", package_uninstalled = "✗"}}})
+require("mason-lspconfig").setup()
+require("dapui").setup()
+require('lspconfig').pylsp.setup{}
+require'lspconfig'.pyright.setup{cmd = {'pyright-langserver.cmd', '--stdio'}, 
+root_dir =  function(fname)
+				return vim.fn.getcwd()
+		end
 }
+require'lspconfig'.bashls.setup{}
 
-dap.configurations.cpp = 
-{
-		{
-				name = 'Launch',
-				type = 'lldb',
-				request = 'launch',
-				program = function()
-						return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-				end,
-				cwd = '${workspaceFolder}',
-				stopOnEntry = false,
-				args ={}, 
-		},
-}
+require('dap-python').setup('C:\\Users\\Mike\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')
+require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.arduino_language_server.setup{}
+require'dap'.adapters.bashdb = {type = 'executable'; command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter'; name = 'bashdb';}
+require'dap'.adapters.cppdbg = {id = 'cppdbg',type = 'executable',command = '~/extension/debugAdapters/bin/OpenDebugAD7',}
+require'dap'.configurations.sh = {{type = 'bashdb';request = 'launch';name = "Launch file";showDebugOutput = true;pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';trace = true;file = "${file}";program = "${file}";cwd = '${workspaceFolder}';pathCat = "cat";pathBash = "/bin/bash";pathMkfifo = "mkfifo";pathPkill = "pkill";args = {};env = {};terminalKind = "integrated";}}
+local neogit = require('neogit')
+neogit.setup {}
+require'dap'.set_log_level('DEBUG')
 EOF
+lua require("catppuccin").setup({flavour = "frappe", transparent_background = true, styles = {comments = "italic", conditionals = "italic"}})
+
 set encoding=utf-8
 set nobackup
 set nowritebackup
@@ -183,15 +159,17 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <C-b> :lua require'dap'.toggle_breakpoint()<CR>
+noremap <C-b> :lua require'dap'.toggle_breakpoint()<CR>
 nnoremap <C-l> :lua require'dap'.continue() <CR>
 nnoremap <C-s> :lua require'dap'.step_over() <CR>
 nnoremap <C-d> :lua require("dapui").toggle()<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :TerminalTab bash<CR>
+nnoremap <C-t> :Neotree<CR>
+nnoremap <C-c> :TerminalTab C:\Windows\System32\cmd.exe<CR>
 nnoremap <C-p> :TagbarToggle<CR>
 nnoremap <C-i> :Mason<CR>
-nnoremap <A-f> :CocCommand editor.action.formatDocument <CR>
-nnoremap <C-i> :CocCommand pyright.organizeimports<CR>
-colorscheme nord
-
+nnoremap <C-f> :CocCommand editor.action.formatDocument<CR>
+nnoremap <C-o> :CocCommand pyright.organizeImport<CR>
+nnoremap <C-g> :Neogit<CR>
+nnoremap <C-f> :ToggleTerm direction=tab
+colorscheme catppuccin
+let g:airline_theme = "catppuccin"
