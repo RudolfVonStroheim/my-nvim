@@ -7,6 +7,7 @@ set smarttab
 set smartindent
 call plug#begin('C:\Users\Mike\AppData\Local\nvim-data\site\autoload')
 Plug 'NeogitOrg/neogit'
+
 Plug 'nvimdev/dashboard-nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
@@ -53,7 +54,7 @@ root_dir =  function(fname)
 		end
 }
 require'lspconfig'.bashls.setup{}
-
+require'notify'.setup{}
 require('dap-python').setup('C:\\Users\\Mike\\AppData\\Local\\Programs\\Python\\Python313\\python.exe')
 require'dashboard'.setup({
     theme = 'hyper',
@@ -80,15 +81,66 @@ require'lspconfig'.jedi_language_server.setup{}
 require'toggleterm'.setup()
 require'lspconfig'.arduino_language_server.setup{}
 require'dap'.adapters.bashdb = {type = 'executable'; command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter'; name = 'bashdb';}
+vim.notify = require'notify'
 require'dap'.adapters.cppdbg = {id = 'cppdbg',type = 'executable',command = '~/extension/debugAdapters/bin/OpenDebugAD7',}
 require'dap'.configurations.sh = {{type = 'bashdb';request = 'launch';name = "Launch file";showDebugOutput = true;pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';trace = true;file = "${file}";program = "${file}";cwd = '${workspaceFolder}';pathCat = "cat";pathBash = "/bin/bash";pathMkfifo = "mkfifo";pathPkill = "pkill";args = {};env = {};terminalKind = "integrated";}}
 local neogit = require('neogit')
 neogit.setup {}
 require'dap'.set_log_level('DEBUG')
-EOF
-lua require("catppuccin").setup({flavour = "frappe", transparent_background = true, styles = {comments = "italic", conditionals = "italic"}})
+require("catppuccin").setup({
+    flavour = "mocha", -- latte, frappe, macchiato, mocha
+    background = { -- :h background
+        light = "latte",
+        dark = "mocha",
+    },
+    transparent_background = true, -- disables setting the background color.
+    show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+    term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+    dim_inactive = {
+        enabled = false, -- dims the background color of inactive window
+        shade = "dark",
+        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+    },
+    no_italic = false, -- Force no italic
+    no_bold = false, -- Force no bold
+    no_underline = false, -- Force no underline
+    styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" }, -- Change the style of comments
+        conditionals = { "italic" },
+        loops = {},
+        functions = {"bold"},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {"italic", "underline"},
+        properties = {},
+        types = {},
+        operators = {},
+        -- miscs = {}, -- Uncomment to turn off hard-coded styles
+    },
+    color_overrides = {},
+    custom_highlights = {},
+    default_integrations = true,
+    integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = false,
+        mini = {
+            enabled = true,
+            indentscope_color = "",
+        },
+        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+    },
+})
 
+-- setup must be called before loading
+vim.cmd.colorscheme "catppuccin"
+EOF
 set encoding=utf-8
+let g:python3_host_prog = 'C:\Users\Mike\AppData\Local\Programs\Python\Python312\python3.exe'
 set nobackup
 set nowritebackup
 set updatetime=300
@@ -193,6 +245,6 @@ nnoremap <C-i> :Mason<CR>
 nnoremap <C-f> :CocCommand editor.action.formatDocument<CR>
 nnoremap <C-o> :CocCommand pyright.organizeImport<CR>
 nnoremap <C-g> :Neogit<CR>
-nnoremap <C-f> :ToggleTerm direction=tab
+nnoremap <C-f> :ToggleTerm direction=vertical<CR>
 colorscheme catppuccin
 let g:airline_theme = "catppuccin"
